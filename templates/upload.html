@@ -28,7 +28,7 @@
 
 
             <div >
-                <input autocompletion="off" autofocus class="form-control" type="file" />
+                <input autocompletion="off" autofocus class="form-control" type="file" name="file"/>
             </div>
 
             <div>Uplod a new file</div>
@@ -48,9 +48,15 @@
         {% endif %}
 
 
+            {% if extracted_text %}
+                <p> The extracted text from the image above is: <b>{{ extracted_text }}</b> </p>
+            {% else %}
+                    <p>Text would be extracted here: </p>
+            {% endif %}
+
            {% if img_src %}
            <h1>Result:</h1>
-             <img src="{{ img_src }}">
+             <img src="{{ img_src }}" height="100" width="80"/>
            {% endif %}
 
 

@@ -2,8 +2,10 @@ import os
 from flask import Flask, flash, render_template, request, url_for, redirect
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = "/home/ubuntu/files"
-ALLOWED_EXTENSIONS = {"txt","pdf", "png", "gif", "gpg", "jpeg"}
+from ocr_core import ocr_core
+
+UPLOAD_FOLDER = "/home/ubuntu/files/"
+ALLOWED_EXTENSIONS = {"txt","pdf", "png", "gif", "jpg", "jpeg"}
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -20,8 +22,6 @@ def upload_file():
         return render_template('upload.html')
     else:
         # check if the post request has the file part
-        if 'file' not in request.files:
-            return render_template('upload.html',msg="no upload file found", files=request.files)
 
         file  = request.files['file']
 
@@ -30,11 +30,22 @@ def upload_file():
         if file.filename == '':
            return render_template('upload.html',msg="no File selected")
 
+
         if file and allowed_filename(file.filename):
-            filename = secure_filename(filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
-            return render_template('upload.html',msg="file uploaded succesfully", img_src=UPLOAD_FOLDER+filename)
+
+            file_name = secure_filename(file.filename)
+
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'],file_name))
+            try:
+                extracted_text = ocr_core(UPLOAD_FOLDER + file_name)
+                print(extracted_text)
+            except:
+                print("error in file extraction")
+
+            return render_template('upload.html',msg="file uploaded succesfully",  img_src= UPLOAD_FOLDER + file_name)
+
         else:
+
             return render_template('upload.html', msg="file extension not allowd")
 
 
