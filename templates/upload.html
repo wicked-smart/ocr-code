@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <title>Login-Form</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+        <!-- documentation at http://getbootstrap.com/docs/4.0/, alternative themes at https://bootswatch.com/4-alpha/ -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet"/>
+
+
+
+
+    </head>
+
+    <body>
+
+        {% if msg %}
+             <h1>{{ msg }}</h1>
+         {% endif %}
+
+        <div>
+
+        <form style="text-align:center" action="{{ url_for('upload_file') }}" enctype="multipart/form-data" method="POST">
+          <fieldset>
+
+
+            <div >
+                <input autocompletion="off" autofocus class="form-control" type="file" />
+            </div>
+
+            <div>Uplod a new file</div>
+
+            <button class="btn btn-primary" type="submit">upload</button>
+
+          </fieldset>
+        </form>
+
+        {% if files %}
+        <h2>list uploaded file metadata</h2>
+        <ul>
+            {% for key,value in files.items() %}
+                <li><strong> {{ key }} => {{ value }} </strong></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+
+           {% if img_src %}
+           <h1>Result:</h1>
+             <img src="{{ img_src }}">
+           {% endif %}
+
+
+
+        </div>
+    </body>
+</html>
+
