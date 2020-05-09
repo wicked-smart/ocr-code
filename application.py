@@ -1,4 +1,5 @@
 import os
+import json
 from flask import Flask, flash, render_template, request, url_for, redirect
 from werkzeug.utils import secure_filename
 
@@ -36,13 +37,8 @@ def upload_file():
             file_name = secure_filename(file.filename)
 
             file.save(os.path.join(app.config['UPLOAD_FOLDER'],file_name))
-            try:
-                extracted_text = ocr_core(UPLOAD_FOLDER + file_name)
-                print(extracted_text)
-            except:
-                print("error in file extraction")
-
-            return render_template('upload.html',msg="file uploaded succesfully",  img_src= UPLOAD_FOLDER + file_name)
+            extracted_text = ocr_core(UPLOAD_FOLDER+ file_name)
+            return render_template('upload.html',msg="file uploaded succesfully", extracted_text = json.dumps(extracted_text), img_src= UPLOAD_FOLDER + file_name)
 
         else:
 

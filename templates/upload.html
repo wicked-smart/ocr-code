@@ -17,26 +17,32 @@
 
     <body>
 
+        <div style="text-align: center; margin-bottom: 15px; margin-top: 15px">
+            <img alt="ocr web-app" src="/home/ubuntu/files/Fitbit-Logo.png"/>
+        </div>
+
         {% if msg %}
              <h1>{{ msg }}</h1>
          {% endif %}
 
-        <div>
+        <div class="form-group">
 
-        <form style="text-align:center" action="{{ url_for('upload_file') }}" enctype="multipart/form-data" method="POST">
+        <form style="text-align:center; margin-top:20px " action="{{ url_for('upload_file') }}" enctype="multipart/form-data" method="POST">
           <fieldset>
 
 
             <div >
-                <input autocompletion="off" autofocus class="form-control" type="file" name="file"/>
+                <input autocompletion="off" autofocus class="form-group"  type="file" name="file"/>
             </div>
 
             <div>Uplod a new file</div>
-
+            <div class="form-group">
             <button class="btn btn-primary" type="submit">upload</button>
+            </div>
 
           </fieldset>
         </form>
+        </div>
 
         {% if files %}
         <h2>list uploaded file metadata</h2>
@@ -55,13 +61,15 @@
             {% endif %}
 
            {% if img_src %}
+
            <h1>Result:</h1>
              <img src="{{ img_src }}" height="100" width="80"/>
+
            {% endif %}
 
 
 
-        </div>
+
     </body>
 </html>
 
